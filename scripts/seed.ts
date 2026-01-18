@@ -29,6 +29,14 @@ async function seedProperties() {
     // FIX 1: Assign sample properties to dedicated DEMO owner (not null)
     const DEMO_OWNER_ID = "11111111-1111-1111-1111-111111111111";
 
+    // Ensure demo user exists
+    await client.query(
+      `INSERT INTO users (id, email, password_hash, full_name, role)
+       VALUES ($1, $2, $3, $4, $5)
+       ON CONFLICT (id) DO NOTHING`,
+      [DEMO_OWNER_ID, 'demo@example.com', 'hashed_password', 'Demo Owner', 'landlord']
+    );
+
     // Transform properties for database
     const transformedProperties = propertiesData.map((prop: any) => ({
       id: uuidv4(),

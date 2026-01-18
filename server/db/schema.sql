@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS applications (
   personal_info JSONB,
   rental_history JSONB,
   employment JSONB,
-  references JSONB,
+  "references" JSONB,
   disclosures JSONB,
   documents JSONB,
   status TEXT DEFAULT 'pending', -- 'pending', 'approved', 'rejected'

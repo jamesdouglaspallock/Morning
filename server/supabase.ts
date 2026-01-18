@@ -24,12 +24,6 @@ try {
   const { url, serviceKey } = validateSupabaseEnv();
   const trimmedUrl = url.trim().replace(/^['"]|['"]$/g, '');
 
-  if (!isValidSupabaseUrl(trimmedUrl)) {
-    console.warn(
-      `[SUPABASE] ⚠️ Warning: SUPABASE_URL "${trimmedUrl}" does not appear to be a standard Supabase URL`
-    );
-  }
-
   supabaseClient = createClient(trimmedUrl, serviceKey, {
     auth: {
       persistSession: false, // prevents random session bleed

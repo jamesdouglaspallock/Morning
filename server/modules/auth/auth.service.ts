@@ -37,9 +37,15 @@ export class AuthService {
       try {
         await this.repository.storeUserProfile(authData.user.id, normalizedEmail, fullName, phone, role, legalConsent);
       } catch (profileError: any) {
-        console.error('Failed to save user profile, rolling back auth user:', profileError);
+        console.error('Failed to save user profile, error details:', {
+          userId: authData.user.id,
+          email: normalizedEmail,
+          fullName,
+          role,
+          error: profileError
+        });
         await this.repository.deleteAuthUser(authData.user.id);
-        throw { status: 500, message: "Failed to create user profile. Please try again." };
+        throw { status: 500, message: `Failed to create user profile: ${profileError.message || 'Unknown error'}. Please try again.` };
       }
 
       return { success: true, user: authData.user };
