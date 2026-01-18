@@ -22,14 +22,15 @@ function isValidSupabaseUrl(url: string) {
 try {
   // validateSupabaseEnv will throw if required values are missing
   const { url, serviceKey } = validateSupabaseEnv();
+  const trimmedUrl = url.trim().replace(/^['"]|['"]$/g, '');
 
-  if (!isValidSupabaseUrl(url)) {
+  if (!isValidSupabaseUrl(trimmedUrl)) {
     console.warn(
-      "[SUPABASE] ⚠️ Warning: SUPABASE_URL does not appear to be a standard Supabase URL"
+      `[SUPABASE] ⚠️ Warning: SUPABASE_URL "${trimmedUrl}" does not appear to be a standard Supabase URL`
     );
   }
 
-  supabaseClient = createClient(url, serviceKey, {
+  supabaseClient = createClient(trimmedUrl, serviceKey, {
     auth: {
       persistSession: false, // prevents random session bleed
       autoRefreshToken: false,
